@@ -11,7 +11,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_ARROW] = LAYOUT(/* Arrows & Nav Block */
                 KC_INS,  KC_HOME, KC_PGUP, TO(1),
                 KC_DEL,  KC_END, KC_PGDN, KC_MPLY,
-                KC_SPC,  KC_UP,   LSFT(KC_N),   KC_F24,
+                KC_SPC,  KC_UP,   KC_N,   KC_F24,
                 KC_LEFT, KC_DOWN, KC_RGHT
                 ),
 
