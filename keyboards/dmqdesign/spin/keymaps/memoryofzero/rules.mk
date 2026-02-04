@@ -1,4 +1,4 @@
-OLED_DRIVER_ENABLE = yes
-MOUSEKEY_ENABLE    = yes
-ENCODER_MAP_ENABLE = yes
-MIDI_ENABLE        = no
+OLED_ENABLE 				= yes
+MOUSEKEY_ENABLE    	= yes
+ENCODER_MAP_ENABLE	= yes
+MIDI_ENABLE        	= no

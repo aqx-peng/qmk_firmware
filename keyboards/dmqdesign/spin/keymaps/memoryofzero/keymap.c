@@ -36,52 +36,19 @@ void keyboard_post_init_user(void) {
   rgblight_sethsv_noeeprom(180, 0, 0); // sets LEDs to white
 }
 
-//ENCODER_RESOLUTIONS { 4, 12, 4 }
-void encoder_update_user(uint8_t index, bool clockwise) {
-    if (index == 0) { /* First encoder */
-      switch (get_highest_layer(layer_state)) {
-        default: /* Media FFWD/RWD */
-          if (clockwise) {
-            tap_code(KC_MFFD);
-          } else {
-            tap_code(KC_MRWD);
-          }
-          break;
-      }
-    } else if (index == 1) { /* Second encoder */
-        switch (get_highest_layer(layer_state)) {
-            default: /* Media Control */
-                if (clockwise) {
-                  tap_code(KC_MNXT);
-                } else {
-                  tap_code(KC_MPRV);
-                }
-                break;
-        }
-    } else if (index == 2) { /* Third encoder */
-        switch (get_highest_layer(layer_state)) {
-            default: /* Volume Control */
-                if (clockwise) {
-                    tap_code(KC_VOLU);
-                } else {
-                    tap_code(KC_VOLD);
-                }
-                break;
-        }
-    }
-}
-
-#ifdef OLED_DRIVER_ENABLE
-
-oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-#ifdef LEFT_HAND
-    return OLED_ROTATION_180;
-#else
-    return OLED_ROTATION_0;
+#ifdef ENCODER_MAP_ENABLE
+const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
+  [_ARROW]   = { ENCODER_CCW_CW(KC_MRWD, KC_MFFD), ENCODER_CCW_CW(KC_MPRV, KC_MNXT), ENCODER_CCW_CW(KC_VOLD, KC_VOLU) },
+  [_NUMPAD]  = { ENCODER_CCW_CW(KC_TRNS, KC_TRNS), ENCODER_CCW_CW(KC_TRNS, KC_TRNS), ENCODER_CCW_CW(KC_TRNS, KC_TRNS) },
+  [_MACRO]   = { ENCODER_CCW_CW(KC_TRNS, KC_TRNS), ENCODER_CCW_CW(KC_TRNS, KC_TRNS), ENCODER_CCW_CW(KC_TRNS, KC_TRNS) },
+};
 #endif
-}
 
-void oled_task_user(void) {
+#ifdef OLED_ENABLE
+oled_rotation_t oled_init_user(oled_rotation_t rotation) {
+    return OLED_ROTATION_180;
+}
+bool oled_task_user(void) {
     // Layer Status
     oled_write_P(PSTR("Layer: "), false);
 
@@ -111,5 +78,6 @@ void oled_task_user(void) {
         default:
             oled_write_P(PSTR("Fast-foward/Rewind"), false);
     }
+    return false;
 }
 #endif
